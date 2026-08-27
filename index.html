@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Boss — Menu Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#f0cf5a;
+    --gold-dim:rgba(240,207,90,0.55);
+    --bg:#050403;
+    --panel:#141210;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; padding: 0;
+    color: #f5f3ee;
+    text-align: center;
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 15% 100%, rgba(120,80,30,0.35), transparent 55%),
+      radial-gradient(circle at 90% 85%, rgba(90,50,20,0.30), transparent 55%),
+      radial-gradient(circle at 50% 0%, rgba(60,45,15,0.25), transparent 60%),
+      var(--bg);
+    background-attachment: fixed;
+  }
+
+  .container { max-width: 620px; margin: auto; padding: 28px 14px 110px 14px; }
+
+  /* --- Header / branding --- */
+  .brand-logo { width: 92px; height: auto; margin: 0 auto 4px auto; display:block; filter: drop-shadow(0 0 10px rgba(240,207,90,0.15)); }
+  .brand-name {
+    font-family: 'Kaushan Script', cursive;
+    color: var(--gold);
+    font-size: 2.3rem;
+    line-height: 1;
+    margin: 2px 0 6px 0;
+    text-shadow: 0 0 18px rgba(240,207,90,0.35);
+  }
+  .brand-sub {
+    font-size: 0.72rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #cfcac2;
+    margin: 0 0 6px 0;
+  }
+  .brand-contact {
+    font-size: 0.78rem;
+    color: #b7b2a8;
+    margin: 0 0 22px 0;
+    line-height: 1.5;
+  }
+  .brand-contact span { color: var(--gold); }
+  .divider {
+    width: 70px; height: 2px; margin: 0 auto 22px auto;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  /* --- Section label --- */
+  #section-name {
+    font-family: 'Kaushan Script', cursive;
+    color: var(--gold);
+    font-size: 1.4rem;
+    margin: 0 0 12px 0;
+    min-height: 1.4rem;
+  }
+
+  /* --- Menu image frame --- */
+  .menu-frame {
+    position: relative;
+    width: 100%;
+    min-height: 300px;
+    background: var(--panel);
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(240,207,90,0.25);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.4);
+  }
+  img { width: 100%; display: block; transition: opacity 0.25s ease-in-out; }
+
+  /* --- Bottom fixed nav --- */
+  .nav-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(10, 9, 8, 0.92);
+    padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px)) 16px;
+    border-top: 1px solid rgba(240,207,90,0.25);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+  }
+  .nav-inner {
+    max-width: 620px;
+    margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 8px;
+  }
+
+  button {
+    background: var(--gold);
+    color: #1a1305;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    min-width: 84px;
+    letter-spacing: 0.3px;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  button:active { transform: scale(0.96); }
+  button:disabled { background: #3a362c; color: #78725f; cursor: not-allowed; }
+  button.home { background: transparent; color: var(--gold); border: 1px solid var(--gold-dim); min-width: 56px; padding: 12px 14px; }
+
+  #page-info { font-size: 13px; font-weight: 700; color: var(--gold); letter-spacing: 0.5px; white-space: nowrap; }
+
+  @media (max-width: 380px) {
+    button { padding: 10px 12px; font-size: 12px; min-width: 68px; }
+    .brand-name { font-size: 1.9rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <img class="brand-logo" src="logo.png" alt="The Boss">
+  <div class="brand-name">The Boss</div>
+  <div class="brand-sub">Bar &amp; Restaurant</div>
+  <div class="brand-contact">
+    Munua Météo 2, L'Shi, Haut-Katanga<br>
+    <span>+243 999 323 166</span>
+  </div>
+  <div class="divider"></div>
+
+  <div id="section-name"></div>
+
+  <div class="menu-frame">
+    <img id="image-active" src="page1.jpg" alt="Page du menu">
+  </div>
+
+  <div class="nav-bar">
+    <div class="nav-inner">
+      <button class="home" onclick="allerAccueil()" title="Retour au début">🏠</button>
+      <button id="btn-prev" onclick="imagePrecedente()" disabled>⬅ Préc.</button>
+      <div id="page-info">1 / 9</div>
+      <button id="btn-next" onclick="imageSuivante()">Suiv. ➡</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Configuration des pages du menu, dans l'ordre de présentation au client
+  const images = [
+    "page1.jpg", "page2.jpg", "page3.jpg", "page4.jpg", "page5.jpg",
+    "page6.jpg", "page7.jpg", "page8.jpg", "page9.jpg"
+  ];
+  const sectionNames = [
+    "Restaurant",
+    "Boissons Douces & Cocktails",
+    "Bières",
+    "Champagnes & Vins",
+    "Vins Mousseux",
+    "Spiritueux — Vodka & Rhum",
+    "Spiritueux — Gin & Tequila",
+    "Spiritueux — Whisky & Cognac",
+    "Spiritueux — Sélection Premium"
+  ];
+
+  let currentIndex = 0;
+
+  const imgElement = document.getElementById("image-active");
+  const infoElement = document.getElementById("page-info");
+  const nameElement = document.getElementById("section-name");
+  const btnPrev = document.getElementById("btn-prev");
+  const btnNext = document.getElementById("btn-next");
+
+  function updateMenu() {
+    imgElement.style.opacity = 0;
+    setTimeout(() => {
+      imgElement.src = images[currentIndex];
+      imgElement.style.opacity = 1;
+    }, 150);
+
+    infoElement.innerText = `${currentIndex + 1} / ${images.length}`;
+    nameElement.innerText = sectionNames[currentIndex];
+
+    btnPrev.disabled = (currentIndex === 0);
+    btnNext.disabled = (currentIndex === images.length - 1);
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function imageSuivante() {
+    if (currentIndex < images.length - 1) {
+      currentIndex++;
+      updateMenu();
+    }
+  }
+  function imagePrecedente() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateMenu();
+    }
+  }
+  function allerAccueil() {
+    currentIndex = 0;
+    updateMenu();
+  }
+
+  updateMenu();
+</script>
+</body>
+</html>
